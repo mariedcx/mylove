@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Valentin Éternel</title>
+    <style>
+        :root {
+            --rose-fond: #ffebf3;
+            --rose-coeur: #ff69b4;
+            --rose-bulle: #ffffff;
+        }
+
+        body {
+            background-color: var(--rose-fond);
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Fond avec poussins */
+        .poussins-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+
+        /* Coeur Central */
+        .coeur-conteneur {
+            margin-top: 30px;
+            position: relative;
+            width: 320px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: battement 1.2s infinite;
+        }
+
+        .coeur-svg {
+            position: absolute;
+            fill: var(--rose-coeur);
+            width: 100%;
+            z-index: 1;
+            filter: drop-shadow(0 5px 15px rgba(255,105,180,0.4));
+        }
+
+        .coeur-texte {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-weight: bold;
+            padding: 20px;
+            font-size: 1.1rem;
+            max-width: 200px;
+        }
+
+        /* Bulles */
+        .bulles-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .bulle {
+            background: white;
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            width: 220px;
+        }
+
+        .bulle:hover { transform: translateY(-5px); }
+
+        .bulle img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* La Lettre */
+        #lettre-geante {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%; max-width: 450px;
+            background: #fffdfa;
+            border: 3px solid #ff69b4;
+            padding: 25px;
+            z-index: 100;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+        }
+
+        .poeme {
+            font-style: italic;
+            line-height: 1.6;
+            text-align: center;
+            color: #444;
+        }
+
+        /* Photo dynamique dans la bulle "Non" */
+        #img-dynamique {
+            display: none;
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .signature {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        @keyframes battement {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        button.close {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poussins-bg" id="poussins"></div>
+
+    <div class="coeur-conteneur">
+        <svg class="coeur-svg" viewBox="0 0 32 29.6">
+            <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,16,19.2,16,19.2s16-9.8,16-19.2C32,3.8,28.2,0,23.6,0z"/>
+        </svg>
+        <div class="coeur-texte">le Valentin de mon coeur, pour mon amour éternel</div>
+    </div>
+
+    <div class="bulles-container">
+        <div class="bulle" onclick="ouvrirLettre(event)">
+            <img src="photo1.png" alt="Passion">
+            <p><strong>avec passion</strong></p>
+        </div>
+
+        <div class="bulle" id="bulle-non" onclick="clicBulleNon(event)">
+            <p id="texte-non">surtout pas ton Valentin</p>
+            <img src="" id="img-dynamique" alt="Surprise">
+        </div>
+    </div>
+
+    <div id="lettre-geante">
+        <button class="close" onclick="document.getElementById('lettre-geante').style.display='none'">×</button>
+        <img src="photo2.png" style="width:100%; border-radius:10px;" alt="Toi">
+        <div class="poeme">
+            <p>Avec toi je ris, avec toi je frissonne,<br>
+            Même le lundi devient une bonne personne.<br>
+            Plus doux qu’un chocolat, plus chaud qu’un café,<br>
+            Mon cœur te choisit, et recommence à t’aimer.</p>
+        </div>
+        <div style="text-align: center;">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndXIzcXVueXh5amZidXJreHh3em9qamF3bmZ6Z3R6Z3Z6Z3Z6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCBhbmQsc2hvd19nb3BlbiZjdD1n/M90mJvfWfd5qU/giphy.gif" width="80">
+        </div>
+    </div>
+
+    <div class="signature">ton pousskin amoureux</div>
+
+    <script>
+        // Création des poussins en fond
+        const bg = document.getElementById('poussins');
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.innerText = '🐥';
+            p.style.position = 'absolute';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.fontSize = Math.random() * (30 - 15) + 15 + 'px';
+            p.style.opacity = '0.4';
+            bg.appendChild(p);
+        }
+
+        // Fonction Paillettes
+        function paillettes(e) {
+            for (let i = 0; i < 15; i++) {
+                const star = document.createElement('div');
+                star.innerText = '✨';
+                star.style.position = 'fixed';
+                star.style.left = e.clientX + 'px';
+                star.style.top = e.clientY + 'px';
+                star.style.pointerEvents = 'none';
+                star.style.transition = 'all 0.8s ease-out';
+                document.body.appendChild(star);
+                setTimeout(() => {
+                    star.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
+                    star.style.opacity = '0';
+                }, 10);
+                setTimeout(() => star.remove(), 800);
+            }
+        }
+
+        function ouvrirLettre(e) {
+            paillettes(e);
+            document.getElementById('lettre-geante').style.display = 'block';
+        }
+
+        // Logique de la bulle "Surtout pas"
+        let etape = 0;
+        const etapesNon = [
+            { texte: "tu es sur ?", img: "photo3.png", scale: 1.2 },
+            { texte: "je ne cliquerai pas dessus", img: "photo4.png", scale: 1.5 },
+            { texte: "j'ai dit arrête mon pousspouss", img: "photo5.png", scale: 1.8 }
+        ];
+
+        function clicBulleNon(e) {
+            paillettes(e);
+            const bulle = document.getElementById('bulle-non');
+            const texte = document.getElementById('texte-non');
+            const img = document.getElementById('img-dynamique');
+
+            if (etape < etapesNon.length) {
+                texte.innerHTML = `<strong>${etapesNon[etape].texte}</strong>`;
+                img.src = etapesNon[etape].img;
+                img.style.display = "block";
+                bulle.style.transform = `scale(${etapesNon[etape].scale})`;
+                etape++;
+            } else {
+                // Secouer la bulle si on continue de cliquer
+                bulle.style.animation = "secouer 0.2s 3";
+                setTimeout(() => bulle.style.animation = "", 200);
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes secouer {
+            0% { transform: scale(1.8) translateX(0); }
+            25% { transform: scale(1.8) translateX(5px); }
+            75% { transform: scale(1.8) translateX(-5px); }
+            100% { transform: scale(1.8) translateX(0); }
+        }
+    </style>
+</body>
+</html>
